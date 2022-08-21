@@ -15,10 +15,6 @@ export function resultReducer(state = {}, action) {
             return {
                 error: action.error
             };
-        case resultConstants.SET_RESULT_EMPTY:
-            return {
-                results: []
-            };
         default:
             return state;
     }
