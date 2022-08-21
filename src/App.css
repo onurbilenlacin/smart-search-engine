@@ -70,15 +70,13 @@ input {
     color: var(--c-font-primary) !important;
 }
 
+/************************
+    HOME
+ ************************/
+
 .home-container {
     margin-top: 237px;
 }
-
-/* @media screen and (min-width: 768px) {
-    .home-logo {
-        margin-right: 7.5rem;
-    }
-} */
 
 .home-header {
     max-width: 372px;
@@ -90,6 +88,7 @@ input {
 
 .home-search-form {
     max-width: 1093px;
+    margin-top: 44px;
 }
 
 .search-input {
@@ -101,7 +100,7 @@ input {
 .search-input .home {
     max-width: 709px;
 }
-.no-result-input {
+.search-input-error {
     border: 1px solid #ff0000 !important;
 }
 
@@ -124,12 +123,13 @@ input {
 }
 
 /************************
-    SEARCH RESULT
+    SEARCH RESULT PAGE
  ************************/
 
-/* .all-results {
-    margin-top: 39px;
-} */
+.all-results {
+    min-height: 759px;
+    height: 100%;
+}
 
 .final-per-result {
     margin-top: 31px;

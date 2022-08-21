@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { resultActions } from "../actions/result.actions";
 import ResultsContainer from "../components/ResultsContainer";
@@ -9,7 +9,7 @@ import logo from "../logo.svg";
 
 const Home = () => {
     const { keyword } = useParams();
-    const location = useLocation();
+
     const dispatch = useDispatch();
 
     const { results } = useSelector((state) => state.results);
@@ -22,15 +22,11 @@ const Home = () => {
         }
     }, [dispatch, keyword]);
 
-    useEffect(() => {
-        location.pathname === "/" && setSearchWord("");
-    }, [location.pathname]);
-
     return (
         <div className="container home-container">
             <div className="row">
                 <div className="col d-flex justify-content-center">
-                    <Link to="/" onClick={() => location.reload()}>
+                    <Link to="/" onClick={() => window.location.reload()}>
                         <img className="home-logo" src={logo} alt="" />
                     </Link>
                 </div>

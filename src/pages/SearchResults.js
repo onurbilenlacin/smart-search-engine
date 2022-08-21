@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import result_logo from "../result_logo.svg";
 import { utils } from "../helpers/utils";
@@ -80,7 +80,7 @@ const SearchResults = () => {
 
     useEffect(() => {
         !results && dispatch(resultActions.getResult());
-    }, [results]);
+    }, [dispatch, results]);
 
     return (
         <div className="container mx-0">
@@ -91,7 +91,7 @@ const SearchResults = () => {
                     </Link>
                     <form className="d-flex search-form" role="search">
                         <input
-                            className="search-input result-input me-4 "
+                            className="search-input result-input me-4"
                             type="text"
                             placeholder="Tu"
                             onChange={(e) => setSearchWord(e.target.value)}
@@ -118,7 +118,7 @@ const SearchResults = () => {
                     getFilteredResult(keyword, orderBy, pageNo).length > 0 && (
                         <div className="col">
                             <div className="row d-flex ms-2">
-                                <div className="col-12 result-list all-results offset-lg-2">
+                                <div className="col-12 justify-content-start result-list all-results offset-lg-2">
                                     <div className="container position-relative">
                                         <div className="row position-relative">
                                             <ClickOutsideDetector
