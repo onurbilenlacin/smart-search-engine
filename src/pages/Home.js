@@ -18,7 +18,7 @@ const Home = () => {
 
     useEffect(() => {
         !results && dispatch(resultActions.getResult());
-    }, [dispatch, keyword]);
+    }, [dispatch, results]);
 
     return (
         <div className="container home-container">

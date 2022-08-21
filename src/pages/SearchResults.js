@@ -17,59 +17,61 @@ const SearchResults = () => {
 
     const [searchWord, setSearchWord] = useState("");
     const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
-    let filterResult;
+
     const getFilteredResult = (keyword, orderBy, pageNo) => {
-        console.log("girdi");
-        console.log({ keyword });
-        console.log({ orderBy });
-        console.log({ pageNo });
+        let filteredResult;
         if (
             orderBy === undefined ||
             keyword === undefined ||
-            pageNo === undefined
+            pageNo === undefined ||
+            results === undefined
         ) {
             return [];
         }
 
-        filterResult =
+        console.log(orderBy);
+
+        filteredResult =
             results &&
             results.length > 0 &&
             keyword !== undefined &&
             keyword !== "" &&
             utils.filterByName(results, keyword);
-        console.log(filterResult);
 
-        if (orderBy !== undefined && orderBy === "name-asc") {
-            filterResult = filterResult.sort((a, b) =>
-                a[0].localeCompare(b[0])
-            );
-            console.log("nameascending calıstı");
-        }
-        if (orderBy !== undefined && orderBy === "name-desc") {
-            filterResult = filterResult.sort((a, b) =>
-                b[0].localeCompare(a[0])
-            );
-            console.log("namedescending calıstı");
+        switch (orderBy) {
+            case "name-asc":
+                filteredResult = filteredResult.sort((a, b) =>
+                    a[0].localeCompare(b[0])
+                );
+                break;
+            case "name-desc":
+                filteredResult = filteredResult.sort((a, b) =>
+                    b[0].localeCompare(a[0])
+                );
+                break;
+            case "year-asc":
+                filteredResult = filteredResult.sort((a, b) =>
+                    Number(a[3].slice(-4)) > Number(b[3].slice(-4)) ? 1 : -1
+                );
+                break;
+            case "year-desc":
+                filteredResult = filteredResult.sort((a, b) =>
+                    Number(a[3].slice(-4)) < Number(b[3].slice(-4)) ? 1 : -1
+                );
+                break;
+            default:
+                filteredResult = filteredResult.sort((a, b) =>
+                    a[0].localeCompare(b[0])
+                );
         }
 
-        if (orderBy !== undefined && orderBy === "year-asc") {
-            filterResult = filterResult.sort((a, b) =>
-                Number(a[3].slice(-4)) > Number(b[3].slice(-4)) ? 1 : -1
-            );
-            console.log("year asc calıstı");
-        }
-
-        if (orderBy !== undefined && orderBy === "year-desc") {
-            filterResult = filterResult.sort((a, b) =>
-                Number(a[3].slice(-4)) < Number(b[3].slice(-4)) ? 1 : -1
-            );
-            console.log("year desc calıstı");
-        }
-
-        let pagedResult = paginate(filterResult, 6, pageNo);
-        console.log({ pagedResult });
-        return pagedResult;
+        return filteredResult;
     };
+
+    function getPaginatedResult(filteredResult, pageNo) {
+        let pagedResult = paginate(filteredResult, 6, pageNo);
+        return pagedResult;
+    }
 
     function paginate(array, page_size, page_number) {
         return array.slice(
@@ -82,6 +84,8 @@ const SearchResults = () => {
         !results && dispatch(resultActions.getResult());
     }, [dispatch, results]);
 
+    let filteredResult = getFilteredResult(keyword, orderBy, pageNo);
+    let paginatedFilteredResult = getPaginatedResult(filteredResult, pageNo);
     return (
         <div className="container mx-0">
             <nav className="navbar mt-3 ms-3">
@@ -114,122 +118,118 @@ const SearchResults = () => {
                 </div>
             </nav>
             <div className="container px-0">
-                {results &&
-                    getFilteredResult(keyword, orderBy, pageNo).length > 0 && (
-                        <div className="col">
-                            <div className="row d-flex ms-2">
-                                <div className="col-12 justify-content-start result-list all-results offset-lg-2">
-                                    <div className="container position-relative">
-                                        <div className="row position-relative">
-                                            <ClickOutsideDetector
-                                                listen
-                                                onClickOutside={() => {
-                                                    setIsSortMenuOpen(false);
-                                                }}
-                                                onClick={() =>
-                                                    setIsSortMenuOpen(
-                                                        !isSortMenuOpen
-                                                    )
-                                                }
-                                                className="col position-absolute d-flex justify-content-end cursor-pointer"
-                                            >
-                                                <div className="col position-absolute d-flex justify-content-end cursor-pointer">
-                                                    <img
-                                                        src={order_icon}
-                                                        alt=""
-                                                    />
-                                                    <h3 className="m-0">
-                                                        Order By
-                                                    </h3>
-                                                </div>
-                                                {isSortMenuOpen && (
-                                                    <div className="row  justify-content-end">
-                                                        <div className="col-2 position-absolute d-flex justify-content-end sort-menu">
-                                                            <div className="container p-2">
-                                                                <div className="row">
-                                                                    <Link
-                                                                        to={`/show-more/${keyword}/name-asc/page/1`}
-                                                                        className="px-0 no-underline"
-                                                                    >
-                                                                        <div className="col sort-menu-item  p-1">
-                                                                            <p>
-                                                                                Name
-                                                                                ascending
-                                                                            </p>
-                                                                        </div>
-                                                                    </Link>
-                                                                </div>
-                                                                <div className="row">
-                                                                    <Link
-                                                                        to={`/show-more/${keyword}/name-desc/page/1`}
-                                                                        className="px-0 no-underline"
-                                                                    >
-                                                                        <div className="col sort-menu-item  p-1">
-                                                                            <p>
-                                                                                Name
-                                                                                descending
-                                                                            </p>
-                                                                        </div>
-                                                                    </Link>
-                                                                </div>
-                                                                <div className="row">
-                                                                    <Link
-                                                                        to={`/show-more/${keyword}/year-asc/page/1`}
-                                                                        className="px-0 no-underline"
-                                                                    >
-                                                                        <div className="col sort-menu-item  p-1">
-                                                                            <p>
-                                                                                Year
-                                                                                ascending
-                                                                            </p>
-                                                                        </div>
-                                                                    </Link>
-                                                                </div>
-                                                                <div className="row">
-                                                                    <Link
-                                                                        to={`/show-more/${keyword}/year-desc/page/1`}
-                                                                        className="px-0 no-underline"
-                                                                    >
-                                                                        <div className="col sort-menu-item  p-1">
-                                                                            <p>
-                                                                                Year
-                                                                                descending
-                                                                            </p>
-                                                                        </div>
-                                                                    </Link>
-                                                                </div>
+                {paginatedFilteredResult.length > 0 && (
+                    <div className="col">
+                        <div className="row d-flex ms-2">
+                            <div className="col-12 justify-content-start result-list all-results offset-lg-2">
+                                <div className="container position-relative">
+                                    <div className="row position-relative">
+                                        <ClickOutsideDetector
+                                            listen
+                                            onClickOutside={() => {
+                                                setIsSortMenuOpen(false);
+                                            }}
+                                            onClick={() =>
+                                                setIsSortMenuOpen(
+                                                    !isSortMenuOpen
+                                                )
+                                            }
+                                            className="col position-absolute d-flex justify-content-end cursor-pointer"
+                                        >
+                                            <div className="col position-absolute d-flex justify-content-end cursor-pointer">
+                                                <img src={order_icon} alt="" />
+                                                <h3 className="m-0">
+                                                    Order By
+                                                </h3>
+                                            </div>
+                                            {isSortMenuOpen && (
+                                                <div className="row  justify-content-end">
+                                                    <div className="col-2 position-absolute d-flex justify-content-end sort-menu">
+                                                        <div className="container p-2">
+                                                            <div className="row">
+                                                                <Link
+                                                                    to={`/show-more/${keyword}/name-asc/page/1`}
+                                                                    className="px-0 no-underline"
+                                                                >
+                                                                    <div className="col sort-menu-item  p-1">
+                                                                        <p>
+                                                                            Name
+                                                                            ascending
+                                                                        </p>
+                                                                    </div>
+                                                                </Link>
+                                                            </div>
+                                                            <div className="row">
+                                                                <Link
+                                                                    to={`/show-more/${keyword}/name-desc/page/1`}
+                                                                    className="px-0 no-underline"
+                                                                >
+                                                                    <div className="col sort-menu-item  p-1">
+                                                                        <p>
+                                                                            Name
+                                                                            descending
+                                                                        </p>
+                                                                    </div>
+                                                                </Link>
+                                                            </div>
+                                                            <div className="row">
+                                                                <Link
+                                                                    to={`/show-more/${keyword}/year-asc/page/1`}
+                                                                    className="px-0 no-underline"
+                                                                >
+                                                                    <div className="col sort-menu-item  p-1">
+                                                                        <p>
+                                                                            Year
+                                                                            ascending
+                                                                        </p>
+                                                                    </div>
+                                                                </Link>
+                                                            </div>
+                                                            <div className="row">
+                                                                <Link
+                                                                    to={`/show-more/${keyword}/year-desc/page/1`}
+                                                                    className="px-0 no-underline"
+                                                                >
+                                                                    <div className="col sort-menu-item  p-1">
+                                                                        <p>
+                                                                            Year
+                                                                            descending
+                                                                        </p>
+                                                                    </div>
+                                                                </Link>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                )}
-                                            </ClickOutsideDetector>
-                                        </div>
-
-                                        {getFilteredResult(
-                                            keyword,
-                                            orderBy,
-                                            pageNo
-                                        ).map((result, i) => {
-                                            return (
-                                                <ResultsContainer
-                                                    keyword={keyword}
-                                                    result={result}
-                                                    i={i}
-                                                    usingOn="results"
-                                                />
-                                            );
-                                        })}
+                                                </div>
+                                            )}
+                                        </ClickOutsideDetector>
                                     </div>
+
+                                    {paginatedFilteredResult.map(
+                                        (result, i) => {
+                                            return (
+                                                <div key={i}>
+                                                    <ResultsContainer
+                                                        keyword={keyword}
+                                                        result={result}
+                                                        i={i}
+                                                        usingOn="results"
+                                                    />
+                                                </div>
+                                            );
+                                        }
+                                    )}
                                 </div>
                             </div>
                         </div>
-                    )}
+                    </div>
+                )}
             </div>
-            {results && getFilteredResult(keyword, orderBy, pageNo).length > 0 && (
+            {filteredResult.length > 0 && (
                 <div className="row">
                     <div className="col-8 offset-1 mt-4">
                         <Pagination
-                            items={filterResult}
+                            itemCount={filteredResult.length}
                             itemsPerPage="6"
                             orderBy={orderBy}
                         />

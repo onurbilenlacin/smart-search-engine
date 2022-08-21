@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
@@ -19,14 +19,7 @@ function App() {
                         element={<SearchResults />}
                     />
                 </Route>
-                <Route
-                    path="*"
-                    element={
-                        <main style={{ padding: "1rem" }}>
-                            <p>There's nothing here!</p>
-                        </main>
-                    }
-                />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </BrowserRouter>
     );
