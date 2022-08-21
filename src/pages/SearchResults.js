@@ -29,8 +29,6 @@ const SearchResults = () => {
             return [];
         }
 
-        console.log(orderBy);
-
         filteredResult =
             results &&
             results.length > 0 &&
@@ -95,7 +93,16 @@ const SearchResults = () => {
                     </Link>
                     <form className="d-flex search-form" role="search">
                         <input
-                            className="search-input result-input me-4"
+                            className={`search-input result-input me-4 ${
+                                results &&
+                                results.length > 0 &&
+                                keyword !== undefined &&
+                                keyword !== "" &&
+                                utils.filterByName(results, keyword).length ===
+                                    0
+                                    ? "search-input-error"
+                                    : ""
+                            }`}
                             type="text"
                             placeholder="Tu"
                             onChange={(e) => setSearchWord(e.target.value)}
@@ -110,9 +117,7 @@ const SearchResults = () => {
                                     : `/`
                             }`}
                         >
-                            <button className="btn btn-secondary ">
-                                Search
-                            </button>
+                            <button className="btn btn-primary ">Search</button>
                         </Link>
                     </form>
                 </div>

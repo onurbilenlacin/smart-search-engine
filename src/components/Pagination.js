@@ -11,7 +11,6 @@ const Pagination = ({ itemCount, itemsPerPage }) => {
         setPageCount(Math.ceil(itemCount / itemsPerPage));
     }, [itemCount, itemsPerPage]);
 
-    // Invoke when user click to request another page.
     const handlePageClick = (event) => {
         navigate(`/show-more/${keyword}/${orderBy}/page/${event.selected + 1}`);
     };

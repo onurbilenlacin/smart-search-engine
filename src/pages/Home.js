@@ -9,12 +9,13 @@ import logo from "../logo.svg";
 
 const Home = () => {
     const { keyword } = useParams();
-
     const dispatch = useDispatch();
-
     const { results } = useSelector((state) => state.results);
-
     const [searchWord, setSearchWord] = React.useState("");
+
+    const reloadPage = () => {
+        setTimeout(() => window.location.reload(), 0.3);
+    };
 
     useEffect(() => {
         !results && dispatch(resultActions.getResult());
@@ -24,7 +25,7 @@ const Home = () => {
         <div className="container home-container">
             <div className="row">
                 <div className="col d-flex justify-content-center">
-                    <Link to="/" onClick={() => window.location.reload()}>
+                    <Link to="/" onClick={() => reloadPage()}>
                         <img className="home-logo" src={logo} alt="" />
                     </Link>
                 </div>
@@ -39,7 +40,16 @@ const Home = () => {
                     <form className="d-flex home-search-form">
                         <div className="col-8 offset-lg-2 d-flex justify-content-center">
                             <input
-                                className={`search-input home`}
+                                className={`search-input home ${
+                                    results &&
+                                    results.length > 0 &&
+                                    keyword !== undefined &&
+                                    keyword !== "" &&
+                                    utils.filterByName(results, keyword)
+                                        .length === 0
+                                        ? "search-input-error"
+                                        : ""
+                                }`}
                                 type="text"
                                 placeholder="Search"
                                 onChange={(e) => setSearchWord(e.target.value)}
