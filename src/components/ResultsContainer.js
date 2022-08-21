@@ -1,9 +1,8 @@
 import React from "react";
 
-const ResultsContainer = ({ result, i, usingOn }) => {
+const ResultsContainer = ({ result, usingOn }) => {
     return (
         <div
-            key={i}
             className={`p-3 ${
                 usingOn === "home" ? "pre-per-result" : "final-per-result"
             }`}

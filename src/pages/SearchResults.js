@@ -39,27 +39,27 @@ const SearchResults = () => {
             utils.filterByName(results, keyword);
         console.log(filterResult);
 
-        if (orderBy !== undefined && orderBy === "nameAsc") {
+        if (orderBy !== undefined && orderBy === "name-asc") {
             filterResult = filterResult.sort((a, b) =>
                 a[0].localeCompare(b[0])
             );
             console.log("nameascending calıstı");
         }
-        if (orderBy !== undefined && orderBy === "nameDesc") {
+        if (orderBy !== undefined && orderBy === "name-desc") {
             filterResult = filterResult.sort((a, b) =>
                 b[0].localeCompare(a[0])
             );
             console.log("namedescending calıstı");
         }
 
-        if (orderBy !== undefined && orderBy === "yearAsc") {
+        if (orderBy !== undefined && orderBy === "year-asc") {
             filterResult = filterResult.sort((a, b) =>
                 Number(a[3].slice(-4)) > Number(b[3].slice(-4)) ? 1 : -1
             );
             console.log("year asc calıstı");
         }
 
-        if (orderBy !== undefined && orderBy === "yearDesc") {
+        if (orderBy !== undefined && orderBy === "year-desc") {
             filterResult = filterResult.sort((a, b) =>
                 Number(a[3].slice(-4)) < Number(b[3].slice(-4)) ? 1 : -1
             );
@@ -102,8 +102,8 @@ const SearchResults = () => {
                         <Link
                             to={`${
                                 searchWord !== ""
-                                    ? `/show-more/${searchWord}/nameAsc/page/1`
-                                    : `/show-more`
+                                    ? `/show-more/${searchWord}/name-asc/page/1`
+                                    : `/`
                             }`}
                         >
                             <button className="btn btn-secondary ">
@@ -148,7 +148,7 @@ const SearchResults = () => {
                                                             <div className="container p-2">
                                                                 <div className="row">
                                                                     <Link
-                                                                        to={`/show-more/${keyword}/nameAsc/page/1`}
+                                                                        to={`/show-more/${keyword}/name-asc/page/1`}
                                                                         className="px-0 no-underline"
                                                                     >
                                                                         <div className="col sort-menu-item  p-1">
@@ -161,7 +161,7 @@ const SearchResults = () => {
                                                                 </div>
                                                                 <div className="row">
                                                                     <Link
-                                                                        to={`/show-more/${keyword}/nameDesc/page/1`}
+                                                                        to={`/show-more/${keyword}/name-desc/page/1`}
                                                                         className="px-0 no-underline"
                                                                     >
                                                                         <div className="col sort-menu-item  p-1">
@@ -174,7 +174,7 @@ const SearchResults = () => {
                                                                 </div>
                                                                 <div className="row">
                                                                     <Link
-                                                                        to={`/show-more/${keyword}/yearAsc/page/1`}
+                                                                        to={`/show-more/${keyword}/year-asc/page/1`}
                                                                         className="px-0 no-underline"
                                                                     >
                                                                         <div className="col sort-menu-item  p-1">
@@ -187,7 +187,7 @@ const SearchResults = () => {
                                                                 </div>
                                                                 <div className="row">
                                                                     <Link
-                                                                        to={`/show-more/${keyword}/yearDesc/page/1`}
+                                                                        to={`/show-more/${keyword}/year-desc/page/1`}
                                                                         className="px-0 no-underline"
                                                                     >
                                                                         <div className="col sort-menu-item  p-1">

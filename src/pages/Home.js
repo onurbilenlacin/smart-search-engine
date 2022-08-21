@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-import { resultActions } from "../actions/result.actions";
+import { resultActions } from "../actions";
 import ResultsContainer from "../components/ResultsContainer";
 import { utils } from "../helpers/utils";
 import logo from "../logo.svg";
@@ -17,9 +17,7 @@ const Home = () => {
     const [searchWord, setSearchWord] = React.useState("");
 
     useEffect(() => {
-        if (typeof keyword !== "undefined" && keyword !== "") {
-            dispatch(resultActions.getResult());
-        }
+        !results && dispatch(resultActions.getResult());
     }, [dispatch, keyword]);
 
     return (
@@ -43,7 +41,7 @@ const Home = () => {
                             <input
                                 className={`search-input home`}
                                 type="text"
-                                placeholder="Tu"
+                                placeholder="Search"
                                 onChange={(e) => setSearchWord(e.target.value)}
                                 defaultValue={
                                     typeof keyword !== "undefined" &&
@@ -84,16 +82,13 @@ const Home = () => {
                                             .filterByName(results, keyword)
                                             .slice(0, 3)
                                             .map((result, i) => {
-                                                let random =
-                                                    Math.floor(
-                                                        Math.random() * 100
-                                                    ) + 1;
                                                 return (
-                                                    <ResultsContainer
-                                                        result={result}
-                                                        i={random}
-                                                        usingOn="home"
-                                                    />
+                                                    <div key={i}>
+                                                        <ResultsContainer
+                                                            result={result}
+                                                            usingOn="home"
+                                                        />
+                                                    </div>
                                                 );
                                             })}
                                     </div>
@@ -102,7 +97,7 @@ const Home = () => {
                             <div className="row">
                                 <div className="col">
                                     <Link
-                                        to={`/show-more/${searchWord}/nameAsc/page/1`}
+                                        to={`/show-more/${searchWord}/name-asc/page/1`}
                                         className="no-underline"
                                     >
                                         <p className="pt-4 pb-3">
