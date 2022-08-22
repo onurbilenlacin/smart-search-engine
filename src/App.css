@@ -80,7 +80,7 @@ input {
  ************************/
 
 .home-container {
-    margin-top: 237px;
+    margin-top: 130px;
 }
 
 .home-header {
@@ -111,12 +111,15 @@ input:hover {
 }
 
 .search-input-error,
-.search-input-error:focus-visible {
-    border: 2px solid #ff0000 !important;
+.search-input-error::placeholder {
     color: #ff0000;
 }
 
-.search-button {
+.search-input-error {
+    border: 2px solid #ff0000 !important;
+}
+
+.searc .search-button {
     margin-left: 16px;
 }
 
@@ -134,24 +137,29 @@ input:hover {
     margin-top: 18px;
 }
 
+.pre-per-result {
+    margin-top: 0px;
+}
+
 /************************
     SEARCH RESULT PAGE
  ************************/
 
 .all-results {
-    min-height: 759px;
-    height: 100%;
+    height: 700px;
 }
 
 .final-per-result {
-    margin-top: 31px;
+    margin-top: 15px;
 }
 
+.pre-per-result:hover,
 .final-per-result:hover {
     background-color: var(--c-hover);
     cursor: pointer;
 }
-.final-per-result:hover > .secondary-text {
+.final-per-result:hover > div:nth-child(1) > div > div:nth-child(2) p,
+.pre-per-result:hover > div:nth-child(1) > div > div:nth-child(2) p {
     color: white !important;
 }
 
