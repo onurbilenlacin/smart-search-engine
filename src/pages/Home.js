@@ -107,7 +107,9 @@ const Home = () => {
                             <div className="row">
                                 <div className="col">
                                     <Link
-                                        to={`/show-more/${searchWord}/name-asc/page/1`}
+                                        to={`/show-more/${
+                                            keyword ? keyword : searchWord
+                                        }/name-asc/page/1`}
                                         className="no-underline"
                                     >
                                         <p className="pt-4 pb-3">
